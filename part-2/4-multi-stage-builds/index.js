@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
-console.log("hi from the backend application");
 // Set up mongoose connection
-mongoose.connect("mongodb://mongodbi_db/testdb", {});
+mongoose.connect(process.env.MONGO_URI, {});
+console.log(process.env.MONGO_URI)
 
 const EntrySchema = new mongoose.Schema({
   text: String,
@@ -20,6 +20,23 @@ app.get('/', async (req, res) => {
     const entry = new Entry({ text: 'This is an entry' });
     await entry.save();
     res.send('Entry added!');
+  } catch (err) {
+    res.status(500).send('Error occurred');
+  }
+});
+app.get('/check', async (req, res) => {
+  try {
+    const entry = await Entry.find({})
+    res.json(entry);
+  } catch (err) {
+    res.status(500).send('Error occurred asda
+      ');
+  }
+});
+app.get('/remove', async (req, res) => {
+  try {
+    const entry = await Entry.deleteMany({});
+    res.json(entry);
   } catch (err) {
     res.status(500).send('Error occurred');
   }

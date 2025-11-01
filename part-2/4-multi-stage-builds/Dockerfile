@@ -12,4 +12,3 @@ COPY . .
 RUN npm prune --production
 CMD ["npm", "run", "start"]
 
-
